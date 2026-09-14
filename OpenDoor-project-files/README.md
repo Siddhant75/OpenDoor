@@ -11,12 +11,12 @@
 
 ## 🎬 2-Minute Narrated Demo Video
 
-[![OpenDoor 1080p Narrated Demo](assets/01_command_center_hero.png)](recordings/opendoor_demo_narrated_1080p.mp4)
+![OpenDoor 1080p Narrated Demo](assets/01_command_center_hero.png)
 
-> 📺 **Watch Local MP4:** [`recordings/opendoor_demo_narrated_1080p.mp4`](recordings/opendoor_demo_narrated_1080p.mp4)  
-> ⏱️ **Runtime:** `01:58.00` (118.0 seconds — strictly under the 3-minute hackathon limit)  
-> 🎙️ **Voiceover:** Multi-speaker neural audio synthesized via local **Kokoro-82M** (`af_heart` Narrator, `am_adam` OpenDoor Agent, `am_eric` Venue Staff) with **EBU R128** broadcast mastering (-16 LUFS, -1.4 dBFS true peak, 0 clipping).  
-> 🕹️ **Capture:** Automated frame-accurate Playwright recorder (`scripts/record_demo_video.js`) with smooth virtual cursor telemetry and click ripple physics.
+> 📺 **Demo Video:** Publicly available on Devpost & YouTube (strictly under the 3-minute hackathon limit).  
+> ⏱️ **Runtime:** `01:58.00` (118.0 seconds)  
+> 🎙️ **Multi-Voice Audio:** Multi-speaker neural audio synthesized via local **Kokoro-82M** (`af_heart` Narrator, `am_adam` OpenDoor Agent, `am_eric` Venue Staff) with **EBU R128** broadcast mastering (-16 LUFS, -1.4 dBFS true peak, 0 clipping).  
+> 🕹️ **Automation Suite:** Frame-accurate Playwright recorder (`scripts/record_demo_video.js`) with smooth virtual cursor telemetry and click ripple physics.
 
 ---
 
@@ -117,8 +117,8 @@ To demonstrate the full range of the deterministic decision engine, OpenDoor inc
 ### 1. Install & Launch
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/opendoor.git
-cd opendoor/OpenDoor-project-files
+git clone https://github.com/Siddhant75/OpenDoor.git
+cd OpenDoor/OpenDoor-project-files
 
 # Install dependencies
 npm install
@@ -169,10 +169,6 @@ python scripts/merge_video_audio.py
 ├── public/                     # Modern Command Center UI
 │   ├── index.html              # 3-Panel glassmorphism layout
 │   └── app.js                  # Audio visualizer, Speech synth & SSE controller
-├── recordings/                 # High-resolution demo media deliverables
-│   ├── opendoor_demo_narrated_1080p.mp4   # Final 1080p narrated video (118s)
-│   ├── opendoor_voiceover_master.wav     # 48kHz broadcast-mastered audio
-│   └── audio_segments/                    # Individual Kokoro voiceover clips & manifest
 ├── scripts/                    # Automation, testing & video production
 │   ├── record_demo_video.js              # Playwright 1080p video recorder
 │   ├── generate_voiceover_kokoro.py       # Kokoro-82M multi-speaker TTS generator
@@ -198,9 +194,9 @@ python scripts/merge_video_audio.py
 │       └── normalize.ts        # The "Hero" qualified confirmation demotion engine
 ├── submission/
 │   └── calle-skill/            # Reusable community CALL-E skill PR package
-└── submission_assets/          # Devpost demo script & testing instructions
+└── submission_assets/          # Devpost testing instructions & cue manifest
     ├── ai-voiceover-cues.json  # Frame-accurate voiceover cue schedule
-    ├── demo-script.md          # 3-Minute narrated demo script
+    ├── voiceover-guide.md      # Voiceover timing & multi-speaker documentation
     └── testing-instructions.md # Judge step-by-step evaluation guide
 ```
 
@@ -208,8 +204,8 @@ python scripts/merge_video_audio.py
 
 ## Devpost Submission Deliverables
 
-- 🎬 **Full Demo Video:** [`recordings/opendoor_demo_narrated_1080p.mp4`](recordings/opendoor_demo_narrated_1080p.mp4)
+- 🎬 **Full Demo Video (1m58s):** Submitted on YouTube & Devpost
 - 📋 **Frame-Accurate Voiceover Schedule:** [`submission_assets/ai-voiceover-cues.json`](submission_assets/ai-voiceover-cues.json)
-- 📝 **Paced Demo Script:** [`submission_assets/demo-script.md`](submission_assets/demo-script.md)
+- 🎙️ **Voiceover & Audio Engineering Guide:** [`submission_assets/voiceover-guide.md`](submission_assets/voiceover-guide.md)
 - 🧪 **Judge Testing Guide:** [`submission_assets/testing-instructions.md`](submission_assets/testing-instructions.md)
 - 📦 **Reusable CALL-E Community Skill:** [`submission/calle-skill/README.md`](submission/calle-skill/README.md)

@@ -1,8 +1,12 @@
 {
-  "name": "opendoor-project-files",
+  "name": "opendoor",
   "version": "1.0.0",
-  "description": "OpenDoor is a CALL-E-powered accessibility-sensitive outing verifier.",
-  "main": "index.js",
+  "description": "OpenDoor — CALL-E-powered accessibility feasibility command center with deterministic safety firewall.",
+  "main": "src/api/server.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Siddhant75/OpenDoor.git"
+  },
   "directories": {
     "doc": "docs"
   },
@@ -11,8 +15,15 @@
     "start": "node src/api/server.js",
     "test": "jest"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "call-e",
+    "accessibility",
+    "telephony-agent",
+    "verification",
+    "safety-firewall",
+    "hackathon"
+  ],
+  "author": "Siddhant Phukan",
   "license": "ISC",
   "devDependencies": {
     "@types/cors": "^2.8.19",

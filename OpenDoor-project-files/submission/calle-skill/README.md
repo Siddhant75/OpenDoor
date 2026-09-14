@@ -1,21 +1,66 @@
-# Accessible Outing Verifier
+# CALL-E Community Skill: `accessible-outing-verifier`
 
-A specialized verification agent for physical-world event outings. It evaluates whether specific accessibility requirements can be proven through a combination of digital lookup and bounded CALL-E verification.
+> **Submission Area:** `skills/accessible-outing-verifier/`  
+> **Upstream Target:** [CALLE-AI/awesome-phone-call-agents](https://github.com/CALLE-AI/awesome-phone-call-agents)  
+> **Author:** Siddhant Phukan  
+> **License:** MIT  
 
-## Core Thesis
-The agent never treats the AI conversation as the final decision maker. Instead, CALL-E is used strictly as an evidence-gathering actuator for physical constraints (e.g., "Is the elevator working today?") that cannot be reliably scraped. If the response is qualified or uncertain, the verification gracefully degrades to `UNKNOWN` to ensure human safety.
+---
 
-## Usage
+## Overview
 
-```typescript
-import { CallEAdapter, OpenDoorOrchestrator } from 'accessible-outing-verifier';
+`accessible-outing-verifier` is a reusable, safety-bounded Agent Skill for the CALL-E ecosystem. It solves **The Elevator Paradox**: online directories often provide static accessibility tags (`"Wheelchair Accessible"`), but cannot confirm whether physical infrastructure is operating *today*.
 
-const orchestrator = new OpenDoorOrchestrator(digitalSource, callEProvider);
-const state = await orchestrator.prepareOutingVerification(outingReq, '+1-555-0199');
+Unlike generic voice assistants that return ungrounded or hedged responses, this skill:
+1. **Triages Digital Gaps First:** Separates static facility constraints from daily operational dependencies.
+2. **Bounds Telephony actuation:** Calls the venue only when an operational gap exists, using a strict single-purpose CALL-E prompt and JSON extraction schema.
+3. **Enforces Deterministic Demotion:** Hedged statements (*"I think the lift is working"*) are strictly demoted to `UNKNOWN`, ensuring disabled patrons are never stranded by hallucinated or uncertain confidence.
 
-// Explicitly authorize physical verification if there is a digital gap
-const finalized = await orchestrator.authorizeAndExecuteVerification(state, { granted: true, user_id: 'user_1' });
+---
+
+## Directory Structure
+
+Conforms strictly to the `awesome-phone-call-agents` Agent Skills template:
+
+```text
+skills/accessible-outing-verifier/
+├── SKILL.md                          # Full agent skill specification & prompt instructions
+├── README.md                         # Package overview & quick start guide
+├── references/
+│   └── calle-task-schema.json        # Structured extraction schema passed to CALL-E
+├── assets/
+│   ├── sample-outing-request.json    # Example user outing profile with mixed constraints
+│   └── sample-verdict-demoted.json   # Output feasibility brief with safety demotion trace
+└── scripts/
+    └── verify-outing.mjs             # Standalone runner (offline dry-run default)
 ```
 
-## Why it's different
-Unlike generic verification agents that return true/false confidence scores, this verifier enforces **deterministic local policy**. A "qualified confirmation" (e.g., "I think the ramp is clear") is explicitly demoted, forcing the human planner to review the evidence brief.
+---
+
+## How to Test Standalone (Dry Run)
+
+Zero external dependencies required. Simply run with Node.js:
+
+```bash
+# Offline dry-run verification using sample fixture
+node scripts/verify-outing.mjs --profile assets/sample-outing-request.json
+```
+
+Output:
+```text
+[1/3] Digital Evidence Assessment: PASS (Step-free entrance confirmed)
+[2/3] Physical Operational Gap Detected: "Main Elevator Operating Today"
+[3/3] CALL-E Telephony Extraction: "I think it should be working..."
+[FIREWALL] Qualified confirmation detected -> Strictly demoted to UNKNOWN.
+VERDICT: NOT FULLY VERIFIED (Reason: Operational elevator constraint unconfirmed)
+```
+
+---
+
+## Upstream PR Contribution Entry
+
+When opening a Pull Request to `CALLE-AI/awesome-phone-call-agents`, copy this folder to `skills/accessible-outing-verifier/` and add this line to `README.md` under `### Skills`:
+
+```markdown
+- [`accessible-outing-verifier`](skills/accessible-outing-verifier/) - Dual-phase outing accessibility verifier that bridges digital claims with bounded CALL-E calls, enforcing a deterministic safety demotion for hedged answers.
+```

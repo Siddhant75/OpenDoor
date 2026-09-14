@@ -5,18 +5,6 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
 [![License: ISC](https://img.shields.io/badge/License-ISC-green.svg)](https://opensource.org/licenses/ISC)
 [![Deterministic Engine](https://img.shields.io/badge/Policy-Deterministic%20Safety-emerald.svg)](#the-causal-proof-chain)
-[![Demo Video](https://img.shields.io/badge/Demo%20Video-1080p%20Narrated%20(1m58s)-purple.svg)](#-2-minute-narrated-demo-video)
-
----
-
-## 🎬 2-Minute Narrated Demo Video
-
-![OpenDoor 1080p Narrated Demo](assets/01_command_center_hero.png)
-
-> 📺 **Demo Video:** Publicly available on Devpost & YouTube (strictly under the 3-minute hackathon limit).  
-> ⏱️ **Runtime:** `01:58.00` (118.0 seconds)  
-> 🎙️ **Multi-Voice Audio:** Multi-speaker neural audio synthesized via local **Kokoro-82M** (`af_heart` Narrator, `am_adam` OpenDoor Agent, `am_eric` Venue Staff) with **EBU R128** broadcast mastering (-16 LUFS, -1.4 dBFS true peak, 0 clipping).  
-> 🕹️ **Automation Suite:** Frame-accurate Playwright recorder (`scripts/record_demo_video.js`) with smooth virtual cursor telemetry and click ripple physics.
 
 ---
 
@@ -108,7 +96,6 @@ To demonstrate the full range of the deterministic decision engine, OpenDoor inc
 4. **Interactive Constraint Builder:** Quick-select personas (*Power Wheelchair*, *Deaf / Hard of Hearing*, *Sensory Sensitive*) or type custom requirements (e.g. *Braille*, *CART captions*).
 5. **Technical Audit Drawer ("Inspect Proof Chain"):** Bottom drawer revealing millisecond timestamps, the raw CALL-E JSON schema, and the deterministic firewall diff for hackathon judges.
 6. **Printable Feasibility Certificate:** Export a clean physical outing summary.
-7. **Automated Video & Audio Production Suite:** Frame-accurate Playwright video capture with synchronized Kokoro-82M neural voiceover pipeline.
 
 ---
 
@@ -134,47 +121,25 @@ Open **[http://localhost:3000](http://localhost:3000)** in your browser.
 npm test
 ```
 
-### 3. Run Automated Browser Verification (Playwright)
-```bash
-# Runs full headless browser audit across all scenarios & captures screenshots
-node scripts/visual_audit_full.js
-```
-
-### 4. Reproduce Demo Video & Audio Generation (Optional)
-```bash
-# Record frame-accurate 1080p demo video (120s master timeline)
-node scripts/record_demo_video.js
-
-# Synthesize Kokoro-82M neural voiceover segments
-python scripts/generate_voiceover_kokoro.py
-
-# Mix master audio with EBU R128 broadcast loudness normalization
-python scripts/build_master_audio_kokoro.py
-
-# Multiplex into final production MP4
-python scripts/merge_video_audio.py
-```
-
 ---
 
 ## Project Structure
 
 ```
-├── assets/                     # Retina screenshots embedded in README
+├── assets/                     # High-resolution platform screenshots
 │   ├── 01_command_center_hero.png
 │   ├── 02_digital_gap_analysis.png
 │   ├── 03_live_telephony_stream.png
 │   ├── 04_hero_demotion_verdict.png
 │   └── 05_technical_audit_drawer.png
+├── docs/                       # Architecture and policy specifications
+│   ├── architecture.md
+│   ├── constraints-and-validation.md
+│   ├── evidence-source-policy.md
+│   └── hackathon-prize-proof.md
 ├── public/                     # Modern Command Center UI
 │   ├── index.html              # 3-Panel glassmorphism layout
 │   └── app.js                  # Audio visualizer, Speech synth & SSE controller
-├── scripts/                    # Automation, testing & video production
-│   ├── record_demo_video.js              # Playwright 1080p video recorder
-│   ├── generate_voiceover_kokoro.py       # Kokoro-82M multi-speaker TTS generator
-│   ├── build_master_audio_kokoro.py       # EBU R128 audio mastering engine
-│   ├── merge_video_audio.py               # Video + audio multiplexer
-│   └── visual_audit_full.js              # Full screenshot capture suite
 ├── src/
 │   ├── api/                    # Express 5 REST & SSE streaming server
 │   │   └── server.ts
@@ -194,18 +159,20 @@ python scripts/merge_video_audio.py
 │       └── normalize.ts        # The "Hero" qualified confirmation demotion engine
 ├── submission/
 │   └── calle-skill/            # Reusable community CALL-E skill PR package
-└── submission_assets/          # Devpost testing instructions & cue manifest
-    ├── ai-voiceover-cues.json  # Frame-accurate voiceover cue schedule
-    ├── voiceover-guide.md      # Voiceover timing & multi-speaker documentation
-    └── testing-instructions.md # Judge step-by-step evaluation guide
+│       ├── SKILL.md            # Agent Skill specification
+│       ├── README.md           # Community guide & upstream instructions
+│       ├── references/         # CALL-E extraction schema
+│       ├── assets/             # Profile & verdict fixtures
+│       └── scripts/            # Standalone offline runner
+└── submission_assets/          # Judge evaluation guides
+    └── testing-instructions.md # Step-by-step judge testing guide
 ```
 
 ---
 
 ## Devpost Submission Deliverables
 
-- 🎬 **Full Demo Video (1m58s):** Submitted on YouTube & Devpost
-- 📋 **Frame-Accurate Voiceover Schedule:** [`submission_assets/ai-voiceover-cues.json`](submission_assets/ai-voiceover-cues.json)
-- 🎙️ **Voiceover & Audio Engineering Guide:** [`submission_assets/voiceover-guide.md`](submission_assets/voiceover-guide.md)
+- 🚀 **Command Center Platform:** OpenDoor Accessibility Feasibility Command Center
 - 🧪 **Judge Testing Guide:** [`submission_assets/testing-instructions.md`](submission_assets/testing-instructions.md)
 - 📦 **Reusable CALL-E Community Skill:** [`submission/calle-skill/README.md`](submission/calle-skill/README.md)
+- 📋 **Domain Policies & Specifications:** [`docs/`](docs/)

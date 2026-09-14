@@ -88,14 +88,20 @@ playwright-report/
 blob-report/
 .playwright/
 
-# --- Audio & Video Recordings ---
-# Exclude all heavy media files from git (host demo video externally)
+# --- Audio & Video Recordings & Internal Production ---
+# Exclude all local media, recordings, and production scratch scripts from public git
 recordings/
 **/recordings/
+scripts/
+**/scripts/
 
-# --- Demo Script (internal, not for repo) ---
+# --- Internal Video Production Scripts & Guides ---
 **/demo-script.md
 **/submission_assets/demo-script.md
+**/ai-voiceover-cues.json
+**/submission_assets/ai-voiceover-cues.json
+**/voiceover-guide.md
+**/submission_assets/voiceover-guide.md
 
 # --- Logs & Runtime Artifacts ---
 logs/

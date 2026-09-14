@@ -5,18 +5,10 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
 [![License: ISC](https://img.shields.io/badge/License-ISC-green.svg)](https://opensource.org/licenses/ISC)
 [![Deterministic Engine](https://img.shields.io/badge/Policy-Deterministic%20Safety-emerald.svg)](OpenDoor-project-files/README.md#the-causal-proof-chain)
-[![Demo Video](https://img.shields.io/badge/Demo%20Video-1080p%20Narrated%20(1m58s)-purple.svg)](#-2-minute-narrated-demo-video)
 
 ---
 
-## 🎬 2-Minute Narrated Demo Video
-
-![OpenDoor 1080p Narrated Demo](OpenDoor-project-files/assets/01_command_center_hero.png)
-
-> 📺 **Demo Video:** Submitted on Devpost & YouTube (strictly under the 3-minute hackathon limit).  
-> ⏱️ **Runtime:** `01:58.00` (118.0 seconds)  
-> 🎙️ **Multi-Voice Audio:** Multi-speaker neural audio synthesized via local **Kokoro-82M** (`af_heart` Narrator, `am_adam` OpenDoor Agent, `am_eric` Venue Staff) with **EBU R128** broadcast mastering (-16 LUFS, -1.4 dBFS true peak, 0 clipping).  
-> 🕹️ **Automation Suite:** Frame-accurate Playwright recorder with smooth virtual cursor telemetry and click ripple physics.
+![OpenDoor Command Center](OpenDoor-project-files/assets/01_command_center_hero.png)
 
 ---
 

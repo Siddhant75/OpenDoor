@@ -53,12 +53,3 @@ To verify that all domain policy rules, scenarios, and dynamic place lookup engi
 npm test
 ```
 
----
-
-## 3. Headless Browser Verification (Playwright)
-
-To run the automated visual verification script that exercises the app and generates screenshot artifacts in your workspace:
-
-```bash
-node scripts/visual_audit_full.js
-```

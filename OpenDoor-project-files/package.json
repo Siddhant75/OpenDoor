@@ -24,7 +24,7 @@
     "hackathon"
   ],
   "author": "Siddhant Phukan",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",

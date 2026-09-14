@@ -4,7 +4,7 @@
 
 [![CALL-E Hackathon](https://img.shields.io/badge/CALL--E-Your%20Code%20Is%20Calling-blue.svg)](https://devpost.com)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Deterministic Engine](https://img.shields.io/badge/Policy-Deterministic%20Safety-emerald.svg)](#architecture--data-flow)
 [![Tests Passing](https://img.shields.io/badge/Tests-32%20passed%20%7C%2010%20suites-brightgreen.svg)](#verification--automated-tests)
 
@@ -207,4 +207,4 @@ Ran all test suites.
 
 ## License
 
-Released under the [MIT License](https://opensource.org/licenses/MIT).
+Released under the [MIT License](LICENSE).

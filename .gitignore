@@ -98,23 +98,13 @@ blob-report/
 .playwright/
 
 # --- Audio & Video Recordings ---
-# Exclude heavy intermediate WAV/WebM files, preserve final narrated MP4 and manifests
-recordings/*.webm
-**/recordings/*.webm
-recordings/*.wav
-**/recordings/*.wav
-recordings/*.tmp
-**/recordings/*.tmp
-recordings/audio_segments/*.wav
-**/recordings/audio_segments/*.wav
-recordings/audio_segments/*.mp3
-**/recordings/audio_segments/*.mp3
-!recordings/*.mp4
-!**/recordings/*.mp4
-!recordings/**/manifest.json
-!**/recordings/**/manifest.json
-!recordings/**/kokoro_manifest.json
-!**/recordings/**/kokoro_manifest.json
+# Exclude all heavy media files from git (host demo video externally)
+recordings/
+**/recordings/
+
+# --- Demo Script (internal, not for repo) ---
+**/demo-script.md
+**/submission_assets/demo-script.md
 
 # --- Logs & Runtime Artifacts ---
 logs/

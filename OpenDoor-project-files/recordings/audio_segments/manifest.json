@@ -1,0 +1,79 @@
+[
+  {
+    "id": "SEG_01_HOOK",
+    "file": "D:\\CALL-E-hackathon\\OpenDoor-project-files\\scripts\\..\\recordings\\audio_segments\\SEG_01_HOOK.mp3",
+    "start_time_s": 0.0,
+    "duration": 13.78,
+    "allocated": 9.0
+  },
+  {
+    "id": "SEG_02_DIGITAL_SCAN",
+    "file": "D:\\CALL-E-hackathon\\OpenDoor-project-files\\scripts\\..\\recordings\\audio_segments\\SEG_02_DIGITAL_SCAN.mp3",
+    "start_time_s": 9.0,
+    "duration": 8.59,
+    "allocated": 8.0
+  },
+  {
+    "id": "SEG_03_GAP_IDENTIFIED",
+    "file": "D:\\CALL-E-hackathon\\OpenDoor-project-files\\scripts\\..\\recordings\\audio_segments\\SEG_03_GAP_IDENTIFIED.mp3",
+    "start_time_s": 17.0,
+    "duration": 9.86,
+    "allocated": 9.0
+  },
+  {
+    "id": "SEG_04_CONSENT_GATE",
+    "file": "D:\\CALL-E-hackathon\\OpenDoor-project-files\\scripts\\..\\recordings\\audio_segments\\SEG_04_CONSENT_GATE.mp3",
+    "start_time_s": 26.0,
+    "duration": 6.24,
+    "allocated": 4.0
+  },
+  {
+    "id": "SEG_05_AGENT_QUESTION",
+    "file": "D:\\CALL-E-hackathon\\OpenDoor-project-files\\scripts\\..\\recordings\\audio_segments\\SEG_05_AGENT_QUESTION.mp3",
+    "start_time_s": 30.0,
+    "duration": 8.02,
+    "allocated": 6.0
+  },
+  {
+    "id": "SEG_06_VENUE_ANSWER",
+    "file": "D:\\CALL-E-hackathon\\OpenDoor-project-files\\scripts\\..\\recordings\\audio_segments\\SEG_06_VENUE_ANSWER.mp3",
+    "start_time_s": 36.0,
+    "duration": 5.54,
+    "allocated": 7.0
+  },
+  {
+    "id": "SEG_07_FIREWALL_EXPLAINED",
+    "file": "D:\\CALL-E-hackathon\\OpenDoor-project-files\\scripts\\..\\recordings\\audio_segments\\SEG_07_FIREWALL_EXPLAINED.mp3",
+    "start_time_s": 43.0,
+    "duration": 11.23,
+    "allocated": 9.0
+  },
+  {
+    "id": "SEG_08_VERDICT_REVEAL",
+    "file": "D:\\CALL-E-hackathon\\OpenDoor-project-files\\scripts\\..\\recordings\\audio_segments\\SEG_08_VERDICT_REVEAL.mp3",
+    "start_time_s": 52.0,
+    "duration": 11.59,
+    "allocated": 10.0
+  },
+  {
+    "id": "SEG_09_TECHNICAL_DRAWER",
+    "file": "D:\\CALL-E-hackathon\\OpenDoor-project-files\\scripts\\..\\recordings\\audio_segments\\SEG_09_TECHNICAL_DRAWER.mp3",
+    "start_time_s": 62.0,
+    "duration": 9.43,
+    "allocated": 12.0
+  },
+  {
+    "id": "SEG_10_SCENARIO2_FEASIBLE",
+    "file": "D:\\CALL-E-hackathon\\OpenDoor-project-files\\scripts\\..\\recordings\\audio_segments\\SEG_10_SCENARIO2_FEASIBLE.mp3",
+    "start_time_s": 74.0,
+    "duration": 12.98,
+    "allocated": 26.0
+  },
+  {
+    "id": "SEG_11_GLOBAL_SEARCH_OUTRO",
+    "file": "D:\\CALL-E-hackathon\\OpenDoor-project-files\\scripts\\..\\recordings\\audio_segments\\SEG_11_GLOBAL_SEARCH_OUTRO.mp3",
+    "start_time_s": 100.0,
+    "duration": 11.52,
+    "allocated": 15.400000000000006
+  }
+]

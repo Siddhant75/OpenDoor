@@ -1,0 +1,135 @@
+# ==========================================
+# OpenDoor Hackathon Repository .gitignore
+# ==========================================
+
+# --- Agent-Native Files & Working Notes ---
+# (Internal agent instructions & scratch specs not relevant to hackathon judges)
+CLAUDE.md
+claude.md
+AGENTS.md
+agents.md
+PROMPTS.md
+prompts.md
+superpowers/
+docs/superpowers/
+.agent/
+.claude/
+.gemini/
+.cursor/
+.windsurf/
+
+# --- Environment & Sensitive Credentials ---
+.env
+.env.*
+*.env
+*.pem
+*.key
+*.cert
+*.crt
+*.p12
+*.pfx
+*.pkcs12
+secrets/
+credentials/
+credentials.json
+client_secret*.json
+token.json
+*.id_rsa
+*.id_ecdsa
+*.id_ed25519
+
+# Allow example env files
+!*.env.example
+!*.env.template
+
+# --- Dependencies ---
+node_modules/
+.pnp
+.pnp.js
+
+# --- Python & ML / TTS Caches ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.mypy_cache/
+*.egg-info/
+.venv/
+venv/
+ENV/
+env/
+
+# --- Build & Compiled Outputs ---
+dist/
+build/
+out/
+tsconfig.tsbuildinfo
+
+# Compiled JavaScript & sourcemaps generated from TypeScript source
+src/**/*.js
+src/**/*.js.map
+src/**/*.d.ts
+src/**/*.d.ts.map
+tests/**/*.js
+tests/**/*.js.map
+tests/**/*.d.ts
+tests/**/*.d.ts.map
+docs/spikes/**/*.js
+docs/spikes/**/*.js.map
+docs/spikes/**/*.d.ts
+docs/spikes/**/*.d.ts.map
+
+# --- Testing & Code Coverage ---
+coverage/
+.nyc_output/
+test-results/
+playwright-report/
+blob-report/
+.playwright/
+
+# --- Audio & Video Recordings ---
+# Exclude heavy intermediate WAV/WebM files, preserve final narrated MP4 and manifests
+recordings/*.webm
+recordings/*.wav
+recordings/*.tmp
+recordings/audio_segments/*.wav
+recordings/audio_segments/*.mp3
+!recordings/*.mp4
+!recordings/**/manifest.json
+!recordings/**/kokoro_manifest.json
+
+# --- Logs & Runtime Artifacts ---
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# --- Operating System & Editor Metadata ---
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# --- Temporary & Archive Files ---
+tmp/
+temp/
+scratch/
+*.zip
+*.tar.gz
+*.tgz

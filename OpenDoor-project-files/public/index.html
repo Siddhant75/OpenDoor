@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenDoor | Accessibility Feasibility Command Center</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.15); opacity: 0.2; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+    .pulse-indicator {
+      animation: pulse-ring 2s infinite ease-in-out;
+    }
+    .transcript-line {
+      opacity: 0;
+      transform: translateY(8px);
+      animation: enterFade 0.25s forwards ease-out;
+    }
+    @keyframes enterFade {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    .custom-scroll-dark::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scroll-dark::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans min-h-screen flex flex-col selection:bg-blue-500 selection:text-white">
+
+  <!-- Top Navbar -->
+  <header class="bg-slate-950/90 backdrop-blur border-b border-slate-800 px-6 py-3.5 flex justify-between items-center sticky top-0 z-50">
+    <div class="flex items-center space-x-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
+        <i class="fa-solid fa-door-open text-xl"></i>
+      </div>
+      <div>
+        <div class="flex items-center space-x-2">
+          <span class="text-xl font-black tracking-tight text-white">Open<span class="text-blue-500">Door</span></span>
+          <span class="text-xs bg-blue-950 text-blue-400 border border-blue-800 font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">v2.0 Pro</span>
+        </div>
+        <p class="text-xs text-slate-400 font-medium">Deterministic Accessibility Feasibility Engine</p>
+      </div>
+    </div>
+
+    <!-- Mode Switcher -->
+    <div class="flex items-center bg-slate-900 p-1 rounded-xl border border-slate-800">
+      <button id="mode-sandbox" class="px-4 py-1.5 rounded-lg text-xs font-bold transition-all bg-blue-600 text-white shadow-sm flex items-center">
+        <i class="fa-solid fa-flask mr-2"></i> Scenario Sandbox
+      </button>
+      <button id="mode-live" class="px-4 py-1.5 rounded-lg text-xs font-bold transition-all text-slate-400 hover:text-white flex items-center">
+        <i class="fa-solid fa-phone-volume mr-2"></i> Live Telephony Dispatch
+      </button>
+    </div>
+
+    <!-- Telephony & Gateway Status -->
+    <div class="flex items-center space-x-4 text-xs font-medium text-slate-400">
+      <div class="flex items-center space-x-2 bg-slate-900 px-3 py-1.5 rounded-full border border-slate-800">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 pulse-indicator"></span>
+        <span class="text-emerald-400 font-mono font-bold">CALL-E GATEWAY: READY</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main 3-Panel Layout -->
+  <div class="flex-1 max-w-7xl w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+    <!-- LEFT PANEL: Venue & Persona Configuration (5 cols) -->
+    <aside class="lg:col-span-4 flex flex-col space-y-5">
+      
+      <!-- Scenario Quick-Select (Visible in Sandbox Mode) -->
+      <div id="sandbox-selector-card" class="bg-slate-950 border border-slate-800 rounded-2xl p-5 shadow-sm">
+        <div class="flex justify-between items-center mb-3">
+          <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">
+            <i class="fa-solid fa-list-check mr-1 text-blue-500"></i> Curated Judge Scenarios
+          </label>
+          <span class="text-[10px] bg-indigo-950 text-indigo-400 border border-indigo-800 px-2 py-0.5 rounded font-mono font-bold">4 EDGE CASES</span>
+        </div>
+        
+        <div class="space-y-2" id="scenarios-container">
+          <!-- Populated via JS -->
+        </div>
+      </div>
+
+      <!-- Venue & Digital Search Card -->
+      <div class="bg-slate-950 border border-slate-800 rounded-2xl p-5 shadow-sm space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+            <i class="fa-solid fa-location-crosshairs mr-1 text-blue-500"></i> Destination Venue
+          </label>
+          <div class="relative">
+            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-slate-500"></i>
+            <input type="text" id="venue-input" value="The Grand Theater" placeholder="Search any venue worldwide..." class="w-full bg-slate-900 border border-slate-700 rounded-xl pl-10 pr-10 py-3 text-sm font-medium text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder:text-slate-600" />
+            <div id="search-spinner" class="hidden absolute right-3.5 top-3.5">
+              <i class="fa-solid fa-circle-notch animate-spin text-blue-500 text-sm"></i>
+            </div>
+            
+            <!-- Autocomplete Results Dropdown -->
+            <div id="venues-dropdown" class="hidden absolute left-0 right-0 top-full mt-2 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl z-40 max-h-60 overflow-y-auto custom-scroll-dark">
+              <!-- Autocomplete items -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Venue Metadata Pill -->
+        <div id="venue-meta" class="bg-slate-900/70 border border-slate-800 rounded-xl p-3 text-xs space-y-1">
+          <div class="flex items-center text-slate-300 font-semibold truncate">
+            <i class="fa-solid fa-building mr-2 text-slate-500"></i>
+            <span id="meta-display-name">The Grand Theater, 125 W 43rd St, NYC</span>
+          </div>
+          <div class="flex items-center justify-between text-slate-500 text-[11px]">
+            <span id="meta-phone"><i class="fa-solid fa-phone mr-1"></i> +1 (212) 555-0143</span>
+            <span id="meta-source" class="text-blue-400 font-mono"><i class="fa-solid fa-map-pin mr-1"></i> OpenStreetMap</span>
+          </div>
+        </div>
+
+        <!-- Target Phone for Live Mode -->
+        <div id="live-phone-wrapper" class="hidden">
+          <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+            <i class="fa-solid fa-phone mr-1 text-emerald-500"></i> Target Phone for CALL-E Dispatch
+          </label>
+          <div class="relative">
+            <i class="fa-solid fa-mobile-screen absolute left-3.5 top-3.5 text-slate-500"></i>
+            <input type="tel" id="target-phone-input" value="+1 (212) 555-0143" placeholder="Enter phone number to ring..." class="w-full bg-slate-900 border border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-sm font-medium text-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all" />
+          </div>
+          <p class="text-[11px] text-slate-500 mt-1">Judges can enter their real test phone or authorized venue line.</p>
+        </div>
+
+        <!-- Persona & Constraints Builder -->
+        <div>
+          <div class="flex justify-between items-center mb-2">
+            <label class="text-xs font-bold text-slate-400 uppercase tracking-wider">
+              <i class="fa-solid fa-wheelchair mr-1 text-blue-500"></i> Outing Constraints
+            </label>
+            <div class="flex space-x-1">
+              <button id="persona-wheelchair" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-300 px-2 py-0.5 rounded transition">Wheelchair</button>
+              <button id="persona-sensory" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-300 px-2 py-0.5 rounded transition">Sensory</button>
+              <button id="persona-hearing" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-300 px-2 py-0.5 rounded transition">Hearing</button>
+            </div>
+          </div>
+
+          <div id="constraints-list" class="space-y-2 bg-slate-900/80 border border-slate-800 rounded-xl p-3 max-h-48 overflow-y-auto custom-scroll-dark">
+            <!-- Populated via JS -->
+          </div>
+
+          <!-- Add Custom Constraint Input -->
+          <div class="mt-2 flex space-x-2">
+            <input type="text" id="custom-constraint-input" placeholder="Add requirement (e.g. ASL, Braille)..." class="flex-1 bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5 text-xs text-slate-300 outline-none focus:border-blue-500" />
+            <button id="btn-add-constraint" class="bg-slate-800 hover:bg-slate-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Scan Button -->
+        <button id="btn-scan" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold py-3 px-4 rounded-xl shadow-lg shadow-blue-500/25 transition-all flex justify-center items-center">
+          <i class="fa-solid fa-radar mr-2"></i> Scan Digital Footprint & Gap
+        </button>
+      </div>
+
+    </aside>
+
+    <!-- CENTER & RIGHT PANELS (7 cols) -->
+    <main class="lg:col-span-8 flex flex-col space-y-6">
+
+      <!-- Workspace Card -->
+      <div class="bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden flex-1 flex flex-col relative min-h-[580px] shadow-sm">
+        
+        <!-- STEP 0: Initial Ready State -->
+        <div id="state-ready" class="flex-1 flex flex-col items-center justify-center p-12 text-center">
+          <div class="w-20 h-20 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-500 mb-6 text-3xl">
+            <i class="fa-solid fa-shield-halved text-blue-500"></i>
+          </div>
+          <h2 class="text-2xl font-bold text-white mb-2">Accessibility Feasibility Engine</h2>
+          <p class="text-slate-400 text-sm max-w-md mb-8">
+            Digital claims often contradict operational reality. OpenDoor scans published sources, identifies the physical-world gap, and verifies truth via bounded CALL-E phone calls.
+          </p>
+          <div class="grid grid-cols-3 gap-4 max-w-lg text-left text-xs">
+            <div class="bg-slate-900 p-3.5 rounded-xl border border-slate-800">
+              <div class="text-blue-400 font-bold mb-1">1. Digital Search</div>
+              <p class="text-slate-500">Extracts published OpenStreetMap & web records.</p>
+            </div>
+            <div class="bg-slate-900 p-3.5 rounded-xl border border-slate-800">
+              <div class="text-amber-400 font-bold mb-1">2. Physical Gap</div>
+              <p class="text-slate-500">Flags operational facts that require phone proof.</p>
+            </div>
+            <div class="bg-slate-900 p-3.5 rounded-xl border border-slate-800">
+              <div class="text-emerald-400 font-bold mb-1">3. CALL-E Action</div>
+              <p class="text-slate-500">Consented live voice call with strict policy evaluation.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 1: Scanning Animation -->
+        <div id="state-scanning" class="hidden flex-1 flex flex-col items-center justify-center p-12 text-center">
+          <div class="relative w-24 h-24 mb-6">
+            <div class="absolute inset-0 bg-blue-500/20 rounded-full animate-ping"></div>
+            <div class="relative w-full h-full bg-slate-900 border-2 border-blue-500 rounded-full flex items-center justify-center text-blue-400 text-3xl shadow-xl shadow-blue-500/20">
+              <i class="fa-solid fa-satellite-dish animate-pulse"></i>
+            </div>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">Analyzing Digital Footprint</h3>
+          <p class="text-slate-400 text-xs max-w-sm" id="scanning-status-text">Querying OpenStreetMap and venue registries for published accessibility statements...</p>
+        </div>
+
+        <!-- STEP 2: Digital Scan Results & Gap Detection -->
+        <div id="state-gap" class="hidden flex-1 flex flex-col p-6 space-y-6">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-4">
+            <div>
+              <h3 class="text-lg font-bold text-white">Digital Footprint Analysis</h3>
+              <p class="text-xs text-slate-400" id="gap-venue-subtitle">The Grand Theater</p>
+            </div>
+            <span id="gap-status-pill" class="text-xs font-bold px-3 py-1 bg-amber-950/80 text-amber-400 border border-amber-800/80 rounded-full flex items-center">
+              <i class="fa-solid fa-triangle-exclamation mr-1.5"></i> Physical-World Gap Detected
+            </span>
+          </div>
+
+          <!-- Digital Evidence Cards -->
+          <div class="space-y-3 flex-1" id="digital-evidence-list">
+            <!-- Populated via JS -->
+          </div>
+
+          <!-- Physical Verification Authorization Gate -->
+          <div class="bg-gradient-to-r from-blue-950/70 via-indigo-950/50 to-slate-900 border border-blue-800/50 rounded-2xl p-6 relative overflow-hidden shadow-xl">
+            <div class="absolute -right-6 -bottom-6 text-blue-500/10 text-9xl">
+              <i class="fa-solid fa-phone-volume"></i>
+            </div>
+            <div class="relative z-10 space-y-3 max-w-xl">
+              <div class="flex items-center space-x-2 text-blue-400 text-xs font-bold tracking-wider uppercase">
+                <i class="fa-solid fa-lock-open"></i>
+                <span>Human Consent Gate Required</span>
+              </div>
+              <h4 class="text-xl font-bold text-white">Authorize Physical Verification Call</h4>
+              <p class="text-slate-300 text-xs leading-relaxed">
+                Critical operational facts cannot be proven digitally. Under the OpenDoor Safety Contract, CALL-E will place a bounded phone call to <span id="call-target-display" class="font-mono text-blue-300 font-bold">+1 (212) 555-0143</span> to verify only the unresolved requirements.
+              </p>
+              <div class="pt-2 flex items-center space-x-3">
+                <button id="btn-authorize" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black px-6 py-3 rounded-xl shadow-lg shadow-emerald-500/25 transition-all flex items-center text-sm">
+                  <i class="fa-solid fa-phone mr-2"></i> Authorize & Dispatch CALL-E
+                </button>
+                <button onclick="location.reload()" class="text-slate-400 hover:text-white text-xs px-3 py-2 font-medium">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3: Live Telephony Terminal & Audio Waveform -->
+        <div id="state-call" class="hidden flex-1 flex flex-col bg-slate-950">
+          
+          <!-- Call Terminal Header -->
+          <div class="px-6 py-4 border-b border-slate-800 flex justify-between items-center bg-slate-900/60">
+            <div class="flex items-center space-x-3">
+              <span class="w-3 h-3 rounded-full bg-red-500 animate-ping"></span>
+              <div>
+                <span class="font-mono text-xs font-bold text-white tracking-wider uppercase">CALL-E LIVE TELEPHONY SESSION</span>
+                <p class="text-[10px] text-slate-400 font-mono" id="call-target-header">TARGET: +1 (212) 555-0143</p>
+              </div>
+            </div>
+
+            <!-- Waveform Canvas & Audio Controls -->
+            <div class="flex items-center space-x-4">
+              <!-- Mini Audio Wave Canvas -->
+              <canvas id="waveform-canvas" width="160" height="32" class="bg-slate-900 rounded-lg border border-slate-800"></canvas>
+              
+              <!-- Mute / Voice Toggle -->
+              <button id="btn-toggle-voice" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-2.5 py-1.5 rounded-lg border border-slate-700 flex items-center">
+                <i class="fa-solid fa-volume-high mr-1.5 text-blue-400" id="voice-icon"></i>
+                <span id="voice-label">Speech On</span>
+              </button>
+
+              <div class="font-mono text-sm text-emerald-400 font-bold bg-slate-900 px-3 py-1 rounded-lg border border-slate-800" id="call-timer">00:00</div>
+            </div>
+          </div>
+
+          <!-- Real-Time Transcript Stream -->
+          <div class="flex-1 p-6 overflow-y-auto font-mono text-xs space-y-3.5 custom-scroll-dark" id="transcript-feed">
+            <!-- Dialog lines stream here -->
+          </div>
+
+          <!-- Bottom Telephony Telemetry -->
+          <div class="px-6 py-2.5 bg-slate-900 border-t border-slate-800 flex justify-between items-center text-[11px] text-slate-500 font-mono">
+            <span>SIP TRUNK: ENCRYPTED TLS / SRTP</span>
+            <span class="text-blue-400">SCHEMA: STRICT_CONSTRAINT_EXTRACTION</span>
+            <span>CODEC: OPUS 24kHz</span>
+          </div>
+        </div>
+
+        <!-- STEP 4: Production Evidence Brief & Certificate -->
+        <div id="state-brief" class="hidden flex-1 flex flex-col p-6 space-y-6 overflow-y-auto custom-scroll-dark">
+          
+          <!-- Verdict Banner -->
+          <div id="verdict-banner" class="p-6 rounded-2xl border text-center relative overflow-hidden">
+            <div class="relative z-10 space-y-2">
+              <span class="text-xs font-mono font-bold uppercase tracking-widest text-slate-400">EXECUTIVE OUTING FEASIBILITY VERDICT</span>
+              <div id="verdict-badge" class="inline-block px-6 py-2 rounded-xl text-lg font-black tracking-wider uppercase border-2 shadow-xl">
+                NOT FULLY VERIFIED
+              </div>
+              <p class="text-xs max-w-xl mx-auto text-slate-300 pt-1" id="hero-insight-text">
+                OpenDoor strictly demoted the venue's qualified statement to UNKNOWN, refusing to guess on patron safety.
+              </p>
+            </div>
+          </div>
+
+          <!-- Constraints & Provenance Assessment Cards -->
+          <div class="space-y-3 flex-1" id="assessments-container">
+            <!-- Populated via JS -->
+          </div>
+
+          <!-- Action Footer -->
+          <div class="flex justify-between items-center pt-4 border-t border-slate-800">
+            <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl border border-slate-700 flex items-center transition">
+              <i class="fa-solid fa-print mr-2"></i> Print Feasibility Certificate
+            </button>
+            <button onclick="location.reload()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs px-5 py-2.5 rounded-xl transition flex items-center">
+              <i class="fa-solid fa-rotate-left mr-2"></i> Test Another Outing
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- BOTTOM: Technical Audit Drawer for Judges -->
+      <div class="bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden shadow-sm">
+        <button id="toggle-audit-btn" class="w-full px-5 py-3.5 flex justify-between items-center text-xs font-bold text-slate-400 hover:text-white bg-slate-900/50 hover:bg-slate-900 transition">
+          <span class="flex items-center">
+            <i class="fa-solid fa-code mr-2 text-blue-500"></i> Inspect Proof Chain & Technical Audit Drawer (For Hackathon Judges)
+          </span>
+          <i class="fa-solid fa-chevron-down transition-transform" id="audit-chevron"></i>
+        </button>
+
+        <div id="audit-drawer-content" class="hidden p-5 border-t border-slate-800 bg-slate-950 space-y-4">
+          <div class="flex space-x-2 border-b border-slate-800 pb-2">
+            <button id="tab-timeline" class="text-xs font-mono font-bold px-3 py-1 rounded bg-blue-600 text-white">Timeline</button>
+            <button id="tab-schema" class="text-xs font-mono font-bold px-3 py-1 rounded bg-slate-800 text-slate-400 hover:text-white">CALL-E Schema</button>
+            <button id="tab-raw" class="text-xs font-mono font-bold px-3 py-1 rounded bg-slate-800 text-slate-400 hover:text-white">Raw JSON</button>
+          </div>
+          
+          <pre id="audit-viewer" class="font-mono text-[11px] text-emerald-400 bg-slate-900 p-4 rounded-xl overflow-x-auto max-h-64 custom-scroll-dark">Waiting for verification run to populate audit trace...</pre>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

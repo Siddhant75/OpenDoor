@@ -1,0 +1,31 @@
+{
+  "name": "opendoor-project-files",
+  "version": "1.0.0",
+  "description": "OpenDoor is a CALL-E-powered accessibility-sensitive outing verifier.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node src/api/server.js",
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^22.20.2",
+    "jest": "^30.5.1",
+    "playwright": "^1.63.0",
+    "ts-jest": "^29.4.12",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1"
+  }
+}

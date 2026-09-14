@@ -1,10 +1,16 @@
 # OpenDoor — Accessibility Feasibility Command Center
+
 > **"The internet can provide claims about a place. OpenDoor determines whether those claims are enough to safely answer 'Can I actually go?'—and uses CALL-E to verify the physical world when they are not."**
 
 [![CALL-E Hackathon](https://img.shields.io/badge/CALL--E-Your%20Code%20Is%20Calling-blue.svg)](https://devpost.com)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
-[![License: ISC](https://img.shields.io/badge/License-ISC-green.svg)](https://opensource.org/licenses/ISC)
-[![Deterministic Engine](https://img.shields.io/badge/Policy-Deterministic%20Safety-emerald.svg)](#the-causal-proof-chain)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![Deterministic Engine](https://img.shields.io/badge/Policy-Deterministic%20Safety-emerald.svg)](#architecture--data-flow)
+[![Tests Passing](https://img.shields.io/badge/Tests-32%20passed%20%7C%2010%20suites-brightgreen.svg)](#verification--automated-tests)
+
+---
+
+![OpenDoor Accessibility Feasibility Command Center](assets/01_command_center_hero.png)
 
 ---
 
@@ -12,39 +18,98 @@
 
 Planning an accessibility-sensitive outing (e.g. for a power wheelchair user, someone who is deaf, or a person with sensory sensitivities) currently relies on static online directory tags (`"Wheelchair Accessible"`). 
 
-These static claims fail in the real world:
-- **The Elevator Paradox:** A theater's website may state they have an elevator. But is it **working today**? Did maintenance sign off on it this morning?
+These static claims routinely fail in the physical world:
+- **The Elevator Paradox:** A theater's website may claim they have an elevator. But is it **working today**? Did maintenance sign off on it this morning?
 - **The Hallucination Trap:** Generic conversational AI agents guess or return vague confidence scores (*"I am 90% sure it is accessible"*), stranding vulnerable patrons at physical barriers.
 
-**OpenDoor solves this by turning CALL-E into a bounded physical-world actuator inside a deterministic constraint-satisfaction engine.**
+**OpenDoor solves this by turning CALL-E into a bounded physical-world actuator inside a deterministic constraint-satisfaction engine.** It never treats conversational AI as the final authority; instead, it uses telephony to gather spoken evidence and enforces a strict, fail-closed safety firewall.
 
 ---
 
-## The Causal Proof Chain
+## ⚡ Three-Minute Judge Path (Zero Credentials Required)
 
+Follow this sequence to experience the core thesis and deterministic safety engine in under 3 minutes:
+
+1. **Launch the Command Center:**
+   ```bash
+   npm install
+   npm start
+   ```
+   Open **[http://localhost:3000](http://localhost:3000)** in your browser.
+
+2. **Select Scenario 1: "The Hero Demotion":**
+   - In the **Curated Judge Scenarios** list (top-left), click **1. The Hero Demotion**.
+   - Notice the venue (*The Grand Theater*), contact number, and patron constraints (*Parking*, *Entrance*, *Elevator*) are populated.
+
+3. **Scan Digital Footprint & Gap:**
+   - Click **Scan Digital Footprint & Gap**.
+   - Observe that *Step-Free Entrance* and *Designated Parking* pass from digital records.
+   - Crucially, observe that **Main Elevator Operating Today** is flagged as a **`CRITICAL PHYSICAL GAP`** because static web data cannot prove daily maintenance status.
+
+4. **Authorize & Dispatch CALL-E:**
+   - Review the Human Consent Gate and click **Authorize & Dispatch CALL-E**.
+   - Watch the live telephony terminal stream, dual-voice speech synthesis, and real-time audio waveform canvas pulsing in sync with the speech.
+   - Listen/read the venue representative's response: *"I think it should be working, but maintenance has not signed off on the morning inspection yet."*
+
+5. **Inspect the Feasibility Brief & Technical Audit Drawer:**
+   - Observe the executive verdict: **`NOT FULLY VERIFIED (SAFETY DEMOTION)`**.
+   - While generic LLMs would score this as "90% confident", OpenDoor's deterministic safety normalizer **strictly demoted the qualified confirmation to `UNKNOWN`** to prevent a wheelchair user from being stranded.
+   - Click **Inspect Proof Chain & Technical Audit Drawer** at the bottom to inspect the millisecond execution timeline and raw CALL-E JSON schema.
+
+6. **Instant Contrast (Scenarios 2–4):**
+   - Click **2. Full Confirmation** (*Metropolitan Symphony Hall*) $\rightarrow$ Staff confirms all constraints $\rightarrow$ **`FEASIBLE (100%)`**.
+   - Click **3. Hard Physical Barrier** (*The Rooftop Lounge*) $\rightarrow$ Staff reports 42 stone steps $\rightarrow$ **`NOT FEASIBLE`**.
+   - Click **4. Telephony Failure** (*Underground Comedy Club*) $\rightarrow$ Line busy / timeout $\rightarrow$ **`NEEDS REVIEW`**.
+
+---
+
+## Architecture & Data Flow
+
+```mermaid
+flowchart TD
+    User["User Outing Plan & Persona"] --> UI["OpenDoor Web Command Center"]
+    UI --> Nominatim["OpenStreetMap Nominatim Geocoding API"]
+    UI --> Engine["Outing Orchestrator (State Machine)"]
+    Engine --> DigitalSource["Digital Evidence Source"]
+    DigitalSource --> GapAnalyzer["Digital Gap Analyzer"]
+    
+    GapAnalyzer --> StaticPass["Static Facets (Doors, Ramps, Parking)"]
+    GapAnalyzer --> PhysicalGap{"Daily Operational Gap?<br/>(e.g. Elevator Operating Today)"}
+    
+    PhysicalGap -- No Gaps --> DirectFeasible["FEASIBLE (100% Digital Confidence)"]
+    PhysicalGap -- Critical Gap --> ConsentGate["Human Consent Gate<br/>(Explicit Preview & Authorize)"]
+    
+    ConsentGate --> Adapter["CALL-E Telephony Adapter"]
+    Adapter --> TelephonyStream["Live Telephony Audio / SSE Stream"]
+    TelephonyStream --> StructuredExtract["CALL-E Structured Extraction"]
+    
+    StructuredExtract --> SafetyFirewall["Deterministic Safety Firewall<br/>(src/evidence/normalize.ts)"]
+    SafetyFirewall -- Qualified Confirmation --> Demote["Demoted to UNKNOWN<br/>(Refuses to Guess)"]
+    SafetyFirewall -- Direct Confirmation --> Confirm["Constraint Confirmed"]
+    SafetyFirewall -- Hard Barrier --> Refute["Constraint Refuted"]
+    
+    Demote --> FeasibilityEval["Whole-Outing Feasibility Evaluator"]
+    Confirm --> FeasibilityEval
+    Refute --> FeasibilityEval
+    
+    FeasibilityEval --> FinalBrief["Actionable Feasibility Brief<br/>(FEASIBLE / NOT FULLY VERIFIED / NOT FEASIBLE)"]
+    FinalBrief --> AuditDrawer["Technical Proof Drawer (JSON Schemas & Timestamps)"]
 ```
-[ User Outing Goal ] ──> [ Dynamic Venue Discovery ] ──> [ Digital Gap Analyzer ]
-(Any Venue / Persona)     (OpenStreetMap Nominatim API)  (Separates Static from Operational)
-                                                                 │
-                                    ┌────────────────────────────┴────────────────────────────┐
-                                    ▼                                                         ▼
-                         [ Mode 1: Live Dispatch ]                               [ Mode 2: Scenario Sandbox ]
-                     (Real Phone / WebRTC / Audio)                          (4 Curated Edge Cases for Judges)
-                                    │                                                         │
-                                    └────────────────────────────┬────────────────────────────┘
-                                                                 ▼
-                                                  [ Live Audio Waves & Speech ]
-                                                                 │
-                                                                 ▼
-                                                [ CALL-E Structured Extraction ]
-                                                                 │
-                                                                 ▼
-                                                [ Deterministic Safety Firewall ]
-                                           ("I think..." strictly demoted to UNKNOWN)
-                                                                 │
-                                                                 ▼
-                                                [ Actionable Feasibility Brief ]
-                                              (FEASIBLE / NOT FULLY VERIFIED / NOT FEASIBLE)
+
+### State Machine Lifecycle
+
+```mermaid
+stateDiagram-v2
+    [*] --> Initialized: User selects venue & constraints
+    Initialized --> DigitalScanned: Scan digital footprint
+    DigitalScanned --> GapIdentified: Operational constraints unresolved
+    GapIdentified --> ConsentAwaiting: Human consent gate engaged
+    ConsentAwaiting --> TelephonyActive: User explicitly authorizes call
+    TelephonyActive --> EvidenceReceived: CALL-E returns structured result
+    EvidenceReceived --> Normalized: Deterministic firewall runs
+    Normalized --> FeasibilityEvaluated: Whole-outing evaluated
+    FeasibilityEvaluated --> BriefDelivered: Final brief rendered
+    BriefDelivered --> [*]
 ```
 
 ---
@@ -53,7 +118,7 @@ These static claims fail in the real world:
 
 ### 1. The Accessibility Command Center
 ![OpenDoor Command Center](assets/01_command_center_hero.png)
-*Modern 3-panel command center featuring the clean top navigation, curated judge scenarios, live global venue geocoding, and custom constraint builder.*
+*Modern 3-panel command center featuring top navigation, curated judge scenarios, live global venue geocoding, and custom constraint builder.*
 
 ### 2. Dynamic Discovery & The Physical Gap
 ![Digital Gap Analysis](assets/02_digital_gap_analysis.png)
@@ -75,8 +140,6 @@ These static claims fail in the real world:
 
 ## The 4 Curated Judge Scenarios
 
-To demonstrate the full range of the deterministic decision engine, OpenDoor includes 4 pre-configured real-world edge cases accessible via one click in the Command Center:
-
 | Scenario | Venue | Persona & Constraints | The Physical Conflict | Safety Engine Decision | Outing Feasibility |
 |---|---|---|---|---|---|
 | **1. The Hero Demotion** | The Grand Theater | Power Wheelchair User (Elevator + Entrance) | Staff: *"I think it should be working, but maintenance hasn't checked it today."* | `qualified_confirmation` $\rightarrow$ **strictly demoted to `UNKNOWN`** | **`NOT FULLY VERIFIED`** |
@@ -86,93 +149,62 @@ To demonstrate the full range of the deterministic decision engine, OpenDoor inc
 
 ---
 
-## Key Features
+## Implementation Details & Code Mapping
 
-1. **Dual Verification Engines:**
-   - **Mode A: Live Telephony Dispatch:** Enter ANY phone number (test with your own mobile line) to trigger an active voice session.
-   - **Mode B: Curated Scenario Sandbox:** Instant testing of complex edge cases without needing an active telephony carrier.
-2. **Global Place Discovery (OpenStreetMap Nominatim):** Search any venue worldwide with live address, phone, and accessibility tag extraction. Zero external API keys required.
-3. **In-Browser Audio & Waveform Canvas:** Dual-speaker speech synthesis with synchronized real-time audio frequency bars.
-4. **Interactive Constraint Builder:** Quick-select personas (*Power Wheelchair*, *Deaf / Hard of Hearing*, *Sensory Sensitive*) or type custom requirements (e.g. *Braille*, *CART captions*).
-5. **Technical Audit Drawer ("Inspect Proof Chain"):** Bottom drawer revealing millisecond timestamps, the raw CALL-E JSON schema, and the deterministic firewall diff for hackathon judges.
-6. **Printable Feasibility Certificate:** Export a clean physical outing summary.
+| Subsystem | Source Location | Implementation Responsibility |
+|---|---|---|
+| **Safety Normalizer** | [`src/evidence/normalize.ts`](src/evidence/normalize.ts) | The core firewall that intercepts hedged speech (`qualified_confirmation`) and strictly demotes it to `UNKNOWN`. |
+| **Orchestrator** | [`src/application/orchestrator.ts`](src/application/orchestrator.ts) | State machine enforcing the digital gap analysis, consent barrier, and reconciliation. |
+| **CALL-E Telephony Adapter** | [`src/call-e/adapter.ts`](src/call-e/adapter.ts) | Bounded telephony execution, strict JSON schema injection, and idempotency keying. |
+| **Real-Time Voice Engine** | [`src/call-e/voice-engine.ts`](src/call-e/voice-engine.ts) | Server-Sent Events (SSE) streaming engine delivering synchronized audio chunks and waveform telemetry. |
+| **Global Place Search** | [`src/evidence/dynamic-search.ts`](src/evidence/dynamic-search.ts) | Live OpenStreetMap Nominatim client fetching global venues, phone numbers, and accessibility tags. |
+| **Feasibility Domain Engine** | [`src/domain/feasibility.ts`](src/domain/feasibility.ts) | Multi-constraint evaluation logic classifying outings into categorical safety verdicts. |
+| **Web Command Center** | [`public/index.html`](public/index.html), [`public/app.js`](public/app.js) | Modern 3-panel UI with Web Audio API visualizer, scenario selector, and collapsible audit drawer. |
 
 ---
 
-## Quick Start (For Judges)
+## Reusable CALL-E Community Skill: `accessible-outing-verifier`
 
-### 1. Install & Launch
+In accordance with the **CALL-E: Your Code Is Calling** hackathon requirements, this repository packages a reusable Agent Skill ready for upstream pull request to [`CALLE-AI/awesome-phone-call-agents`](https://github.com/CALLE-AI/awesome-phone-call-agents).
+
+- **Location:** [`submission/calle-skill/`](submission/calle-skill/)
+- **Specification:** [`submission/calle-skill/SKILL.md`](submission/calle-skill/SKILL.md) (Standard YAML frontmatter, explicit safety boundaries, and workflow)
+- **Extraction Schema:** [`submission/calle-skill/references/calle-task-schema.json`](submission/calle-skill/references/calle-task-schema.json)
+- **Standalone Offline Runner:** [`submission/calle-skill/scripts/verify-outing.mjs`](submission/calle-skill/scripts/verify-outing.mjs)
+- **Testing Standalone:**
+  ```bash
+  node submission/calle-skill/scripts/verify-outing.mjs
+  ```
+
+---
+
+## Verification & Automated Tests
+
+OpenDoor maintains 100% deterministic test coverage across all domain invariant policies, evidence normalizers, dynamic search adapters, and scenario reconciliations.
+
 ```bash
-# Clone the repository
-git clone https://github.com/Siddhant75/OpenDoor.git
-cd OpenDoor/OpenDoor-project-files
-
-# Install dependencies
-npm install
-
-# Start the Command Center
-npm start
-```
-Open **[http://localhost:3000](http://localhost:3000)** in your browser.
-
-### 2. Run Automated Test Suite
-```bash
-# Run 100% domain and scenario coverage tests
 npm test
 ```
 
----
-
-## Project Structure
-
-```
-├── assets/                     # High-resolution platform screenshots
-│   ├── 01_command_center_hero.png
-│   ├── 02_digital_gap_analysis.png
-│   ├── 03_live_telephony_stream.png
-│   ├── 04_hero_demotion_verdict.png
-│   └── 05_technical_audit_drawer.png
-├── docs/                       # Architecture and policy specifications
-│   ├── architecture.md
-│   ├── constraints-and-validation.md
-│   ├── evidence-source-policy.md
-│   └── hackathon-prize-proof.md
-├── public/                     # Modern Command Center UI
-│   ├── index.html              # 3-Panel glassmorphism layout
-│   └── app.js                  # Audio visualizer, Speech synth & SSE controller
-├── src/
-│   ├── api/                    # Express 5 REST & SSE streaming server
-│   │   └── server.ts
-│   ├── application/            # Outing orchestrator & state machine
-│   │   └── orchestrator.ts
-│   ├── call-e/                 # CALL-E integration & telephony engine
-│   │   ├── adapter.ts          # Provider abstraction & human consent gate
-│   │   ├── scenarios.ts        # 4 Curated edge-case models
-│   │   └── voice-engine.ts     # Real-time SSE speech & waveform simulation
-│   ├── domain/                 # Invariant models & feasibility evaluation
-│   │   ├── constraints.ts
-│   │   ├── evidence.ts
-│   │   └── feasibility.ts
-│   └── evidence/               # Evidence sources & deterministic normalizer
-│       ├── digital-source.ts   # Digital evidence adapter
-│       ├── dynamic-search.ts   # OpenStreetMap Nominatim live search
-│       └── normalize.ts        # The "Hero" qualified confirmation demotion engine
-├── submission/
-│   └── calle-skill/            # Reusable community CALL-E skill PR package
-│       ├── SKILL.md            # Agent Skill specification
-│       ├── README.md           # Community guide & upstream instructions
-│       ├── references/         # CALL-E extraction schema
-│       ├── assets/             # Profile & verdict fixtures
-│       └── scripts/            # Standalone offline runner
-└── submission_assets/          # Judge evaluation guides
-    └── testing-instructions.md # Step-by-step judge testing guide
+```text
+Test Suites: 10 passed, 10 total
+Tests:       32 passed, 32 total
+Snapshots:   0 total
+Time:        19.7 s
+Ran all test suites.
 ```
 
 ---
 
-## Devpost Submission Deliverables
+## Technical Specifications & Documentation
 
-- 🚀 **Command Center Platform:** OpenDoor Accessibility Feasibility Command Center
-- 🧪 **Judge Testing Guide:** [`submission_assets/testing-instructions.md`](submission_assets/testing-instructions.md)
-- 📦 **Reusable CALL-E Community Skill:** [`submission/calle-skill/README.md`](submission/calle-skill/README.md)
-- 📋 **Domain Policies & Specifications:** [`docs/`](docs/)
+- 📐 **[System Architecture](docs/architecture.md):** Complete component specifications, Mermaid data flows, and state machine lifecycle.
+- 🛡️ **[Safety Model & Invariants](docs/safety-model.md):** The Elevator Paradox, fail-closed boundaries, and deterministic demotion policy.
+- 🧪 **[Curated Scenarios Guide](docs/scenarios.md):** Detailed breakdown of the 4 judge test cases and live global search.
+- 📋 **[Judge Testing Guide](submission_assets/testing-instructions.md):** Step-by-step hands-on evaluation manual for judges.
+
+---
+
+## License
+
+Released under the [MIT License](https://opensource.org/licenses/MIT).

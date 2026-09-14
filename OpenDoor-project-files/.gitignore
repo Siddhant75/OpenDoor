@@ -103,6 +103,14 @@ scripts/
 **/voiceover-guide.md
 **/submission_assets/voiceover-guide.md
 
+# --- Internal Agent Planning Notes & Prototype Spikes ---
+**/hackathon-prize-proof.md
+**/project-brief.md
+**/constraints-and-validation.md
+**/evidence-source-policy.md
+docs/spikes/
+**/docs/spikes/
+
 # --- Logs & Runtime Artifacts ---
 logs/
 *.log

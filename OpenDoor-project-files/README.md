@@ -3,6 +3,8 @@
 > **"The internet can provide claims about a place. OpenDoor determines whether those claims are enough to safely answer 'Can I actually go?'—and uses CALL-E to verify the physical world when they are not."**
 
 [![CALL-E Hackathon](https://img.shields.io/badge/CALL--E-Your%20Code%20Is%20Calling-blue.svg)](https://devpost.com)
+[![Upstream Community PR](https://img.shields.io/badge/Community%20PR-%23635%20Open-purple.svg)](https://github.com/CALLE-AI/awesome-phone-call-agents/pull/635)
+[![Demo Video](https://img.shields.io/badge/Demo%20Video-YouTube-red.svg)](https://youtu.be/QbrXvRfChwo)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Deterministic Engine](https://img.shields.io/badge/Policy-Deterministic%20Safety-emerald.svg)](#architecture--data-flow)
@@ -11,6 +13,9 @@
 ---
 
 ![OpenDoor Accessibility Feasibility Command Center](assets/01_command_center_hero.png)
+
+> 📺 **[Watch the 2-Minute Demo Video on YouTube](https://youtu.be/QbrXvRfChwo)**  
+> 🔗 **[View Official Upstream Community Skill PR (#635)](https://github.com/CALLE-AI/awesome-phone-call-agents/pull/635)**
 
 ---
 
@@ -164,12 +169,15 @@ stateDiagram-v2
 ---
 
 ## Reusable CALL-E Community Skill: `accessible-outing-verifier`
+ 
+In accordance with the **CALL-E: Your Code Is Calling** hackathon requirements, this reusable Agent Skill has been officially contributed upstream via **[Pull Request #635 on CALLE-AI/awesome-phone-call-agents](https://github.com/CALLE-AI/awesome-phone-call-agents/pull/635)**.
 
-In accordance with the **CALL-E: Your Code Is Calling** hackathon requirements, this repository packages a reusable Agent Skill ready for upstream pull request to [`CALLE-AI/awesome-phone-call-agents`](https://github.com/CALLE-AI/awesome-phone-call-agents).
-
-- **Location:** [`submission/calle-skill/`](submission/calle-skill/)
+- **Upstream Pull Request:** **[#635: feat(skills): add accessible-outing-verifier skill](https://github.com/CALLE-AI/awesome-phone-call-agents/pull/635)** (Open, Validated against repository test suite)
+- **Upstream Skill Path:** `skills/accessible-outing-verifier/`
+- **Local Package Mirror:** [`submission/calle-skill/`](submission/calle-skill/)
 - **Specification:** [`submission/calle-skill/SKILL.md`](submission/calle-skill/SKILL.md) (Standard YAML frontmatter, explicit safety boundaries, and workflow)
 - **Extraction Schema:** [`submission/calle-skill/references/calle-task-schema.json`](submission/calle-skill/references/calle-task-schema.json)
+- **Mandatory References:** [`references/safety.md`](submission/calle-skill/references/safety.md) & [`references/examples.md`](submission/calle-skill/references/examples.md)
 - **Standalone Offline Runner:** [`submission/calle-skill/scripts/verify-outing.mjs`](submission/calle-skill/scripts/verify-outing.mjs)
 - **Testing Standalone:**
   ```bash
